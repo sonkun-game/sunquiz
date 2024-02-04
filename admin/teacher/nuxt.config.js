@@ -13,7 +13,16 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      {
+        src: 'https://code.jquery.com/jquery-3.7.0.min.js',
+      },
+      {
+        src: 'https://kit.fontawesome.com/4ec2fea601.js',
+        crossorigin: 'anonymous',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
