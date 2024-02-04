@@ -1,7 +1,7 @@
 <template>
   <div class="container p-4 shadow bg-white rounded-lg w-100">
     <p class="text-lg">
-      <b>Ngân hàng đề</b>
+      <b>Ngân hàng đề thi</b>
     </p>
   </div>
 </template>
