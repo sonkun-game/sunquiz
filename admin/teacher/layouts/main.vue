@@ -92,20 +92,6 @@ div.title {
     scrollbar-width: none;
 }
 
-.mode-button {
-    width: 100%;
-    height: 100%;
-}
-
-.mode-button.active {
-    background-color: #ffffff0d;
-    color: #60a5fa;
-}
-
-.mode-button:hover {
-    background-color: #ffffff0d;
-}
-
 .content {
     background-color: cornsilk;
     background-image: url('../static/img/bg.jpg');
