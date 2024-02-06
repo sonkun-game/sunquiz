@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-4 shadow bg-yellow-50 rounded-lg w-100">
+  <div class="container p-4 shadow bg-yellow-50 rounded-lg m-auto">
     <p class="text-xl py-2">
       <b>Ngân hàng đề thi</b>
     </p>

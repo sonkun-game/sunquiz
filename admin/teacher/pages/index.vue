@@ -1,6 +1,6 @@
 <template>
-  <div class="container p-4 shadow bg-white rounded-lg w-100">
-
+  <div>
+    Welcome to sunquiz
   </div>
 </template>
 
