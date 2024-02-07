@@ -91,8 +91,6 @@ export default {
   }
 }
 </script>
-
-
 <style scoped>
 * {
   color: #97704f;
