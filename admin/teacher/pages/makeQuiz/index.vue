@@ -1,7 +1,7 @@
 <template>
   <div class="container p-4 shadow bg-yellow-50 rounded-lg m-auto">
     <p class="text-xl py-2">
-      <b>Ngân hàng đề thi</b>
+      <b>Ngân hàng câu hỏi</b>
     </p>
     <!-- Chọn môn học -->
     <div class="p-4">
@@ -71,19 +71,18 @@ export default {
       ],
       listQuestion: [
         {
-          id: "1",
+          id: 1,
           quest: "1 + 1=",
           answ: "2"
         },
         {
-          id: "1",
+          id: 2,
           quest: "2 + 3=",
           answ: "5"
         }
       ]
     }
   }
-
 }
 </script>
 
