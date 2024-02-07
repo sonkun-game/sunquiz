@@ -4,8 +4,11 @@
         <nav class="navbar w-100 h-15 px-4 py-1 flex justify-between items-center text-white shadow">
             <div class="flex items-center gap-2 cursor-pointer">
                 <img class="logo" src="../static/img/logo.png" alt="logoSunQuiz" />
-                <span class="text-base">SunQuiz</span>
+                <span class="text-base pr-4">SunQuiz</span>
+                <a href="/makeQuiz" class="text-base px-2 bg-teddy-brow">Ngân hàng câu hỏi</a>
+                <a href="/makeTest" class="text-base px-2 bg-teddy-brow">Quản lý đề thi</a>
             </div>
+
             <div class="grow"></div>
             <div class="p-2 flex items-center gap-3 cursor-pointer">
                 <i class="text-lg fa-solid fa-circle-user"></i>

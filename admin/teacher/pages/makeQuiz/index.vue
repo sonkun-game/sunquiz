@@ -5,21 +5,21 @@
     </p>
     <!-- Chọn môn học -->
     <div class="p-4">
-      <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-pencil" />
+      <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-book-open" />
     </div>
     <!-- Danh sách ngân hàng đề -->
     <div class="p-4">
       <table class="w-full">
         <thead>
-          <tr class="text-left">
-            <th class="p-4">STT</th>
-            <th class="p-4">Câu hỏi</th>
-            <th class="p-4">Đáp án</th>
+          <tr class="">
+            <th class="p-4 text-left">STT</th>
+            <th class="p-4 text-left">Câu hỏi</th>
+            <th class="p-4 text-left">Đáp án</th>
             <th class="p-4">Thay đổi</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in listQuestion" :key="index">
+          <tr class="hover:bg-orange-100" v-for="(item, index) in listQuestion" :key="index">
             <td class="p-4">{{ index + 1 }}</td>
             <td class="p-4">{{ item.quest }}</td>
             <td class="p-4">{{ item.answ }}</td>
