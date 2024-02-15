@@ -14,6 +14,7 @@
           <tr class="">
             <th class="p-4 text-left">STT</th>
             <th class="p-4 text-left">Câu hỏi</th>
+            <th class="p-4 text-left">Hình ảnh</th>
             <th class="p-4 text-left">Đáp án</th>
             <th class="p-4">Thay đổi</th>
           </tr>
@@ -22,8 +23,16 @@
           <tr class="hover:bg-orange-100" v-for="(item, index) in listQuestion" :key="index">
             <td class="p-4">{{ index + 1 }}</td>
             <td class="p-4">{{ item.quest }}</td>
-            <td class="p-4">{{ item.answ }}</td>
+            <td class="">
+              <img class="question-image" src="../../static/img/math.jpg" />
+            </td>
             <td class="p-4">
+              {{ item.answ }}
+            </td>
+            <td class="p-4">
+              <NuxtLink :to="'/makeQuiz/detail/' + item.id">
+                <i class="fa-solid fa-eye"></i>
+              </NuxtLink>
               <button class="px-2">
                 <i class="fa-solid fa-pen"></i>
               </button>
@@ -35,7 +44,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td class="p-4" colspan="4">
+            <td class="p-4" colspan="5">
               <button class="bg-teddy-brow rounded-lg bold p-2 w-full">
                 <i class="fa-solid fa-plus text-white"></i>
                 <span class="text-white">Thêm mới câu hỏi</span>
@@ -101,5 +110,9 @@ thead {
 
 .container {
   height: 90vh;
+}
+
+.question-image {
+  max-width: 200px;
 }
 </style>
