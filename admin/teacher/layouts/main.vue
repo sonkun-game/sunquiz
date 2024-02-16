@@ -1,4 +1,3 @@
-
 <template>
     <div class="layout-container no-scrollbar">
         <nav class="navbar w-100 h-15 px-4 py-1 flex justify-between items-center shadow">

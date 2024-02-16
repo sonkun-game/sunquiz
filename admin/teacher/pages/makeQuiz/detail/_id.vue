@@ -56,7 +56,7 @@ p, div {
 
 <script>
 export default {
-  name: 'MakeQuizPage',
+  name: 'MakeQuizDetailPage',
   layout: 'main',
   computed: {
     id() {
