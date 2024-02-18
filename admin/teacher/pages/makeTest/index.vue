@@ -7,7 +7,10 @@
     <div class="p-4 flex justify-between">
       <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-book-open" />
 
-      <button class="bg-teddy-brow text-white font-medium rounded-lg text-sm px-5 py-2.5">Tạo đề thi</button>
+      <NuxtLink to="/makeTest/create">
+        <button class="bg-teddy-brow text-white font-medium rounded-lg text-sm px-5 py-2.5">Tạo đề thi</button>
+      </NuxtLink>
+
     </div>
     <!-- Danh sách ngân hàng đề -->
     <div class="p-4">
@@ -35,7 +38,7 @@
               <button class="px-2">
                 <i class="fa-solid fa-pen"></i>
               </button>
-              <button class="px-2">
+              <button @click="deleteQuiz()" class="px-2">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -45,17 +48,22 @@
         </tfoot>
       </table>
     </div>
+
+    <!-- Confirm Delete Box -->
+    <ConfirmBox @cancle_delete="deleteQuiz" text="Bạn có chắc muốn xóa câu hỏi này ? " :show="isDeleted"></ConfirmBox>
   </div>
 </template>
 
 <script>
 import Dropdown from '../../components/Dropdown.vue';
+import ConfirmBox from '../../components/ConfirmBox.vue';
 
 export default {
   name: 'MakeTestPage',
   layout: 'main',
   components: {
-    Dropdown
+    Dropdown,
+    ConfirmBox
   },
   data() {
     return {
@@ -86,7 +94,13 @@ export default {
           time: "45",
           expired: "2024-02-28T14:00:00",
         },
-      ]
+      ],
+      isDeleted: false,
+    }
+  },
+  methods: {
+    deleteQuiz() {
+      this.isDeleted = !this.isDeleted;
     }
   }
 }

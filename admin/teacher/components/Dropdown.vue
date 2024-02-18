@@ -1,17 +1,25 @@
 
 <template>
     <div>
-        <button :id="'dropdownButton' + dropKey" :data-dropdown-toggle="'dropdown' + dropKey"
+        <button v-if="type=='default'" :id="'dropdownButton' + dropKey" :data-dropdown-toggle="'dropdown' + dropKey"
             class="bg-teddy-brow text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             type="button">
             <i :class="iconClass"></i>
-            <span class="px-4">{{ label }} </span>
+            <span class="px-4">{{ newLabel }} </span>
+        </button>
+
+        <button style="min-width: 300px;" v-if="type=='thin'" :id="'dropdownButton' + dropKey" :data-dropdown-toggle="'dropdown' + dropKey"
+            class="border-teddy-brow text-teddy-brow font-medium rounded-lg text-sm px-10 py-1 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            type="button">
+            <i :class="iconClass"></i>
+            <span class="px-4">{{ newLabel }} </span>
         </button>
 
         <div :id="'dropdown' + dropKey" class="z-10 hidden bg-yellow-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 <li v-for="(item, index) in list" :key="dropKey + index">
-                    <a :href="item.link"
+                    <a :href="item.link" 
+                        @click="setLabel(item.name)"
                         class="block px-4 py-2 hover:bg-yellow-100">
                         {{ item.name }}
                     </a>
@@ -31,10 +39,28 @@ export default {
             return uuidv4();
         }
     },
+    data() {
+        return {
+            newLabel: ""
+        }
+    },
     props: {
         label: "",
         iconClass: "",
-        list: []
+        list: [],
+        type: {
+            type: String,
+            default: "default"
+        }
+    },
+    mounted() {
+        this.newLabel = this.label
+    },
+    methods: {
+        setLabel(str) {
+            this.newLabel = str;
+            this.$emit("change_value");
+        }
     }
 }
 </script>

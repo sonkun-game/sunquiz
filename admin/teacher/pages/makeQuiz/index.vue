@@ -33,9 +33,9 @@
               <NuxtLink :to="'/makeQuiz/detail/' + item.id">
                 <i class="fa-solid fa-eye"></i>
               </NuxtLink>
-              <button class="px-2">
+              <NuxtLink :to="'/makeQuiz/edit/' + item.id">
                 <i class="fa-solid fa-pen"></i>
-              </button>
+              </NuxtLink>
               <button @click="deleteQuiz()" class="px-2">
                 <i class="fa-solid fa-trash"></i>
               </button>

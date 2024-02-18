@@ -1,19 +1,33 @@
 .bg-teddy-brow {
     background-color: #97704f;
     color: white;
-}   
+}
+
 .text-teddy-brow {
     color: #78583d;
 }
+
 .bg-teddy-brow:hover {
     background-color: #78583d;
 }
+
 .border-teddy-brow {
     border: 1px solid #78583d
 }
+
 .border-bottom-teddy-brow {
     border-bottom: 1px solid #78583d
 }
+
 .border-top-teddy-brow {
     border-top: 1px solid #78583d
+}
+
+input {
+    outline: none;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
 }
