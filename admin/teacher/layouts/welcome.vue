@@ -1,0 +1,94 @@
+<template>
+    <div class="layout-container no-scrollbar">
+        <div class="flex">
+            <!-- Main Bar -->
+            <div class="custom-bar w-screen grow">
+                <div>
+                    <client-only>
+                        <template #placeholder>
+                            <div class="w-screen h-screen fixed flex overflow-hidden">
+                                <div class="text-blue-500 text-4xl my-auto" style="margin-left: 30%">
+                                    <img class="w-64 h-64" src="~/static/img/loading.png" alt="loading..." />
+                                </div>
+                            </div>
+                        </template>
+                        <div class="content w-full px-8 py-4 nuxt_container no-scrollbar overflow-scroll">
+                            <Nuxt />
+                        </div>
+                    </client-only>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+  
+<script>
+export default {
+    name: 'mainV2Layout',
+    data() {
+        return {
+            authenURL: "",
+        }
+    },
+    computed: {
+    },
+}
+
+</script>
+  
+<style scoped>
+div,
+a,
+li,
+span {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+}
+
+.navbar {
+    background-color: #97704f;
+}
+
+.logo{
+    max-width: 50px;
+}
+
+div.title {
+    font-weight: 600;
+}
+
+.bg-gland {
+    background-color: #030712;
+}
+
+.drop_down_style {
+    position: absolute;
+    right: 25px;
+    top: 65px;
+}
+
+.nuxt_container {
+    height: 100vh;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.content {
+    background-color: cornsilk;
+    background-image: url('../static/img/bg.jpg');
+    background-repeat: repeat;
+    background-size: 10%;
+}
+
+.layout-container {
+    overflow: scroll;
+    height: 100vh;
+}
+</style>

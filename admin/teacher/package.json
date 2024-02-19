@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "teacher",
   "version": "1.0.0",
   "private": true,
@@ -9,7 +10,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.19.3",
+    "got": "^11.8.3",
+    "node-fetch": "^2.6.7",
     "nuxt": "^2.15.8",
     "uuid": "^9.0.1",
     "vue": "^2.6.14",
