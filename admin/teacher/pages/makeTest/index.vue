@@ -21,19 +21,23 @@
             <th class="p-4 text-left">Đề thi</th>
             <th class="p-4 text-left">Mã đề</th>
             <th class="p-4 text-left">Số câu hỏi</th>
+            <th class="p-4 text-left">Mô tả</th>
             <th class="p-4 text-left">Thời gian thi (phút)</th>
-            <th class="p-4 text-left">Thời hạn hiệu lực</th>
+            <th class="p-4 text-left">Ngày bắt đầu</th>
+            <th class="p-4 text-left">Ngày kết thúc</th>
             <th class="p-4">Thay đổi</th>
           </tr>
         </thead>
         <tbody>
           <tr class="hover:bg-orange-100" v-for="(item, index) in listTest" :key="index">
             <td class="p-4">{{ index + 1 }}</td>
-            <td class="p-4">{{ item.name }}</td>
+            <td class="p-4">{{ item.subject_name }}</td>
             <td class="p-4">{{ item.code }}</td>
-            <td class="p-4">{{ item.questNum }}</td>
-            <td class="p-4">{{ item.time }}</td>
-            <td class="p-4">{{ item.expired }}</td>
+            <td class="p-4">{{ item.num_of_question }}</td>
+            <td class="p-4">{{ item.description }}</td>
+            <td class="p-4">{{ item.duration }}</td>
+            <td class="p-4">{{ item.time_start }}</td>
+            <td class="p-4">{{ item.time_end }}</td>
             <td class="p-4">
               <button class="px-2">
                 <i class="fa-solid fa-pen"></i>
@@ -57,6 +61,7 @@
 <script>
 import Dropdown from '../../components/Dropdown.vue';
 import ConfirmBox from '../../components/ConfirmBox.vue';
+import axios from 'axios';
 
 export default {
   name: 'MakeTestPage',
@@ -80,27 +85,38 @@ export default {
       listTest: [
         {
           id: 1,
-          name: "Đề kiểm tra môn Toán học kỳ 1",
-          code: "MAE1-20240207",
-          questNum: "18",
-          time: "45",
-          expired: "2024-02-07T14:00:00",
-        },
-        {
-          id: 2,
-          name: "Đề kiểm tra môn Toán học kỳ 2",
-          code: "MAE1-20240228",
-          questNum: "18",
-          time: "45",
-          expired: "2024-02-28T14:00:00",
+          subject_id: 2,
+          subject_name: "Môn Tiếng Anh",
+          code: "EXAM_CODE_1",
+          description: null,
+          time_start: "2024/02/08 14:00:00",
+          time_end: "2024/02/08 18:00:00",
+          duration: 3600,
+          num_of_question: 30
         },
       ],
       isDeleted: false,
     }
   },
+  mounted() {
+    this.fetchData();
+  },
   methods: {
     deleteQuiz() {
       this.isDeleted = !this.isDeleted;
+    },
+    fetchData() {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8080/admin/exam',
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem("token")
+        },
+      }).then(response => {
+        console.log(response.data);
+        this.listTest = response.data;
+      });
     }
   }
 }

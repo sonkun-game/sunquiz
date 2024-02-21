@@ -11,7 +11,7 @@
             <div class="grow"></div>
             <div class="p-2 flex items-center gap-3 text-white cursor-pointer">
                 <i class="text-lg fa-solid fa-circle-user"></i>
-                <span>Hoang Thai Son</span>
+                <span>{{ userName }}</span>
             </div>
         </nav>
         <div class="flex">
@@ -41,11 +41,18 @@ export default {
     name: 'mainV2Layout',
     data() {
         return {
-            authenURL: "",
+            userName: "",
         }
     },
-    computed: {
+    computed: {},
+    mounted() {
+        this.init();
     },
+    methods: {
+        init() {
+            this.userName = localStorage.getItem("user");
+        }
+    }
 }
 
 </script>

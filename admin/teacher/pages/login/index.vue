@@ -61,14 +61,18 @@ export default {
         loginForm() {
             axios({
                 method: 'post',
-                url: 'http://127.0.0.1:8080/admin/login?user_name=admin&password=admin123',
+                url: 'http://127.0.0.1:8080/admin/login',
                 responseType: 'json',
                 data: {
                   user_name: this.username,
                   password: this.password,
                 }
-            }).then(function (response) {
-                console.log(response);
+            }).then( response => {
+                var respData = response.data;
+                localStorage.setItem("user",respData[1]);
+                localStorage.setItem("token",respData[4]);
+                alert("Login thành công, chuyển hướng đến trang admin");
+                this.$router.push('/makeQuiz');
             });
         }
     }

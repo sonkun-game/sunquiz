@@ -13,21 +13,20 @@
         <thead>
           <tr class="">
             <th class="p-4 text-left">STT</th>
+            <th class="p-4 text-left">Môn học</th>
             <th class="p-4 text-left">Câu hỏi</th>
             <th class="p-4 text-left">Hình ảnh</th>
-            <th class="p-4 text-left">Đáp án</th>
             <th class="p-4">Thay đổi</th>
           </tr>
         </thead>
         <tbody>
           <tr class="hover:bg-orange-100 border-top-teddy-brow" v-for="(item, index) in listQuestion" :key="index">
             <td class="p-4">{{ index + 1 }}</td>
-            <td class="p-4">{{ item.quest }}</td>
+            <td class="p-4">{{ item.subject_name }}</td>
+            <td class="p-4">{{ item.content }}</td>
             <td class="">
-              <img class="question-image" src="../../static/img/math.jpg" />
-            </td>
-            <td class="p-4">
-              {{ item.answ }}
+              <!-- <img class="question-image" src="../../static/img/math.jpg" /> -->
+              {{ item.image_path }}
             </td>
             <td class="p-4">
               <NuxtLink :to="'/makeQuiz/detail/' + item.id">
@@ -72,7 +71,7 @@
           </tr>
           <tr v-if="!isCreated">
             <td class="p-4" colspan="5">
-              <button  @click="createQuiz()" class="bg-teddy-brow rounded-lg bold p-2 w-full">
+              <button @click="createQuiz()" class="bg-teddy-brow rounded-lg bold p-2 w-full">
                 <i class="fa-solid fa-plus text-white"></i>
                 <span class="text-white">Thêm mới câu hỏi</span>
               </button>
@@ -81,7 +80,7 @@
           </tr>
           <tr v-else>
             <td class="p-4" colspan="2">
-              <button  @click="createQuiz()" class="bg-white text-teddy-brow rounded-lg bold p-2 w-full">
+              <button @click="createQuiz()" class="bg-white text-teddy-brow rounded-lg bold p-2 w-full">
                 <i class="fa-solid fa-x"></i>
                 <span>Hủy</span>
               </button>
@@ -105,6 +104,7 @@
 <script>
 import Dropdown from '../../components/Dropdown.vue';
 import ConfirmBox from '../../components/ConfirmBox.vue';
+import axios from 'axios';
 
 export default {
   name: 'MakeQuizPage',
@@ -112,40 +112,40 @@ export default {
   components: {
     Dropdown,
     ConfirmBox
-},
+  },
   computed: {},
   data() {
     return {
+      pageSize: 1000,
+      pageIndex: 0,
       isCreated: false,
       isDeleted: false,
       listSubject: [
         {
           link: "#",
-          name: "Toán học"
+          name: "Tất cả"
         },
         {
           link: "#",
-          name: "Tiếng anh"
+          name: "Môn Toán"
+        },
+        {
+          link: "#",
+          name: "Môn Tiếng Anh"
         }
       ],
       listQuestion: [
         {
           id: 1,
-          quest: "1 + 1=",
-          answ: "2"
+          content: "Hello Nga, nice to..............you again?",
+          image_path: "/",
+          subject_name: "Môn Tiếng Anh"
         },
-        {
-          id: 2,
-          quest: "2 + 3=",
-          answ: "5"
-        },
-        {
-          id: 3,
-          quest: "2 + 3=",
-          answ: "5"
-        }
       ]
     }
+  },
+  mounted() {
+    this.fetchData();
   },
   methods: {
     createQuiz() {
@@ -153,6 +153,19 @@ export default {
     },
     deleteQuiz() {
       this.isDeleted = !this.isDeleted;
+    },
+    fetchData() {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8080/admin/question?page_size=${this.pageSize}&page_index=${this.pageIndex}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem("token")
+        },
+      }).then(response => {
+        console.log(response.data);
+        this.listQuestion = response.data;
+      });
     }
   }
 }
@@ -162,14 +175,17 @@ export default {
 * {
   color: #97704f;
 }
+
 .bg-transparent {
   background-color: transparent;
   outline: none;
   color: #78583d;
 }
+
 ::placeholder {
   color: #78583d;
 }
+
 .text-white {
   color: white !important;
 }
@@ -179,9 +195,9 @@ export default {
   height: 200px;
   overflow-y: auto;
 }
-.container {
- 
-}
+
+.container {}
+
 .question-image {
   max-width: 150px;
 }
