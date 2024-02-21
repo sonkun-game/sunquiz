@@ -14,8 +14,8 @@
           <tr class="">
             <th class="p-4 text-left">STT</th>
             <th class="p-4 text-left">Môn học</th>
-            <th class="p-4 text-left">Câu hỏi</th>
             <th class="p-4 text-left">Hình ảnh</th>
+            <th class="p-4 text-left">Câu hỏi</th>
             <th class="p-4">Thay đổi</th>
           </tr>
         </thead>
@@ -23,12 +23,13 @@
           <tr class="hover:bg-orange-100 border-top-teddy-brow" v-for="(item, index) in listQuestion" :key="index">
             <td class="p-4">{{ index + 1 }}</td>
             <td class="p-4">{{ item.subject_name }}</td>
-            <td class="p-4">{{ item.content }}</td>
-            <td class="">
-              <!-- <img class="question-image" src="../../static/img/math.jpg" /> -->
-              {{ item.image_path }}
+            <td>
+              <img v-if="getImage(item.image_path) !== ''" class="question-image" :src="getImage(item.image_path)"
+                alt="Question Image" />
             </td>
-            <td class="p-4">
+            <td class="p-4">{{ item.content }}</td>
+            
+            <td class="p-4" style="width: 100px;">
               <NuxtLink :to="'/makeQuiz/detail/' + item.id">
                 <i class="fa-solid fa-eye"></i>
               </NuxtLink>
@@ -148,6 +149,16 @@ export default {
     this.fetchData();
   },
   methods: {
+    getImage(image) {
+      if (image == null || image == "") return "";
+      try {
+        var imgPath = require(`~/public/${image}`);
+        return imgPath;
+      } catch (e) {
+        console.log("Cannot find image", e);
+      }
+      return "";
+    },
     createQuiz() {
       this.isCreated = !this.isCreated;
     },
