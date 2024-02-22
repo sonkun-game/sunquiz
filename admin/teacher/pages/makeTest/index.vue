@@ -82,24 +82,13 @@ export default {
           name: "Tiếng anh"
         }
       ],
-      listTest: [
-        {
-          id: 1,
-          subject_id: 2,
-          subject_name: "Môn Tiếng Anh",
-          code: "EXAM_CODE_1",
-          description: null,
-          time_start: "2024/02/08 14:00:00",
-          time_end: "2024/02/08 18:00:00",
-          duration: 3600,
-          num_of_question: 30
-        },
-      ],
+      listTest: [],
       isDeleted: false,
     }
   },
   mounted() {
     this.fetchData();
+    this.fetchSubject();
   },
   methods: {
     deleteQuiz() {
@@ -115,7 +104,46 @@ export default {
         },
       }).then(response => {
         console.log(response.data);
-        this.listTest = response.data;
+        var list = response.data;
+        var subject = this.$route.query.subject;
+        var key = "";
+        switch (subject) {
+          case "VAN":
+            key = "Môn văn"
+            break;
+          case "TOAN":
+            key = "Môn Toán"
+            break;
+          case "TIENG_ANH":
+            key = "Môn tiếng anh"
+            break;
+          case "TIN_HOC":
+            key = "Môn văn"
+            break;
+          default:
+            break;
+        }
+        if (key !== "") {
+          list.forEach(element => {
+            if (key.toUpperCase() === element.subject_name.toUpperCase()) {
+              this.listTest.push(element);
+            }
+          });
+        } else {
+          this.listTest = list;
+        }
+      });
+    },
+    fetchSubject() {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8080/admin/subject`,
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem("token")
+        },
+      }).then(response => {
+        this.listSubject = response.data;
       });
     }
   }

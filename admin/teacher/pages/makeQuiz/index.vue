@@ -28,7 +28,7 @@
                 alt="Question Image" />
             </td>
             <td class="p-4">{{ item.content }}</td>
-            
+
             <td class="p-4" style="width: 100px;">
               <NuxtLink :to="'/makeQuiz/detail/' + item.id">
                 <i class="fa-solid fa-eye"></i>
@@ -121,32 +121,13 @@ export default {
       pageIndex: 0,
       isCreated: false,
       isDeleted: false,
-      listSubject: [
-        {
-          link: "#",
-          name: "Tất cả"
-        },
-        {
-          link: "#",
-          name: "Môn Toán"
-        },
-        {
-          link: "#",
-          name: "Môn Tiếng Anh"
-        }
-      ],
-      listQuestion: [
-        {
-          id: 1,
-          content: "Hello Nga, nice to..............you again?",
-          image_path: "/",
-          subject_name: "Môn Tiếng Anh"
-        },
-      ]
+      listSubject: [],
+      listQuestion: []
     }
   },
   mounted() {
     this.fetchData();
+    this.fetchSubject();
   },
   methods: {
     getImage(image) {
@@ -154,9 +135,7 @@ export default {
       try {
         var imgPath = require(`~/public/${image}`);
         return imgPath;
-      } catch (e) {
-        console.log("Cannot find image", e);
-      }
+      } catch (e) { }
       return "";
     },
     createQuiz() {
@@ -174,8 +153,46 @@ export default {
           'token': localStorage.getItem("token")
         },
       }).then(response => {
-        console.log(response.data);
-        this.listQuestion = response.data;
+        var list = response.data;
+        var subject = this.$route.query.subject;
+        var key = "";
+        switch (subject) {
+          case "VAN":
+            key = "Môn văn"
+            break;
+          case "TOAN":
+            key = "Môn Toán"
+            break;
+          case "TIENG_ANH":
+            key = "Môn tiếng anh"
+            break;
+          case "TIN_HOC":
+            key = "Môn văn"
+            break;
+          default:
+            break;
+        }
+        if (key !== "") {
+          list.forEach(element => {
+            if (key.toUpperCase() === element.subject_name.toUpperCase()) {
+              this.listQuestion.push(element);
+            }
+          });
+        } else {
+          this.listQuestion = list;
+        }
+      });
+    },
+    fetchSubject() {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8080/admin/subject`,
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem("token")
+        },
+      }).then(response => {
+        this.listSubject = response.data;
       });
     }
   }
