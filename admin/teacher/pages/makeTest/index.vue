@@ -7,9 +7,9 @@
     <div class="p-4 flex justify-between">
       <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-book-open" />
 
-      <NuxtLink to="/makeTest/create">
+      <a href="/makeTest/create">
         <button class="bg-teddy-brow text-white font-medium rounded-lg text-sm px-5 py-2.5">Tạo đề thi</button>
-      </NuxtLink>
+      </a>
 
     </div>
     <!-- Danh sách ngân hàng đề -->

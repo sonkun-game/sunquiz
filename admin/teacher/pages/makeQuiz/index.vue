@@ -4,8 +4,15 @@
       <b>Ngân hàng câu hỏi</b>
     </p>
     <!-- Chọn môn học -->
-    <div class="p-4">
+    <div class="p-4 flex gap-2">
       <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-book-open" />
+      <div>
+        <label for="uploadFile"
+          class="bg-teddy-brow cursor-pointer text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+          <span class="px-4">Import file</span>
+          <input @change="onFileChanged($event)" style="display: none;" id="uploadFile" name="uploadFile" type="file" />
+        </label>
+      </div>
     </div>
     <!-- Danh sách ngân hàng đề -->
     <div class="p-4">
@@ -194,13 +201,57 @@ export default {
       }).then(response => {
         this.listSubject = response.data;
       });
+    },
+    toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+      })
+    },
+    async onFileChanged(event) {
+      const target = event.target;
+      var file = null;
+      if (target && target.files) {
+        console.log(target.files[0]);
+        file = target.files[0];
+      }
+      console.log(file);
+
+      var formData = new FormData();
+      formData.append("file", target.files[0]);
+      console.log(formData);
+
+      if (file != null) {
+          try {
+            axios({
+              method: 'post',
+              url: 'http://127.0.0.1:8080/import/',
+              responseType: 'json',
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Token': localStorage.getItem("token")
+              },
+              data: formData
+            }).then(response => {
+              alert("Import thành công");
+              location.reload();
+            });
+          } catch (e) {
+            alert("ERROR !");
+            console.log(e);
+          }
+        } else {
+          alert("fileUpload is null !");
+        }
     }
   }
 }
 </script>
 
 <style scoped>
-* {
+div {
   color: #97704f;
 }
 

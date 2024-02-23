@@ -22,7 +22,7 @@
                 <tr>
                     <td class="p-4">1</td>
                     <td class="p-4">
-                        <Dropdown @change_value="addRow" type="thin" label="Chọn câu hỏi" :list="listQuestion"
+                        <Dropdown @change_value="addRow" type="thin" label="Chọn câu hỏi" :list="listQuestion" :dropType="2"
                             iconClass="fa-solid fa-arrow-right" />
                     </td>
                     <td class="p-4">
@@ -47,6 +47,7 @@
   
 <script>
 import Dropdown from '../../../components/Dropdown.vue';
+import axios from 'axios';
 
 export default {
     name: 'MakeTestPage',
@@ -54,47 +55,74 @@ export default {
     components: {
         Dropdown,
     },
+    mounted() {
+        this.fetchSubject();
+        this.fetchData();
+    },
     data() {
         return {
-            listSubject: [
-                {
-                    link: "#",
-                    name: "Toán học"
-                },
-                {
-                    link: "#",
-                    name: "Tiếng anh"
-                }
-            ],
-            listQuestion: [
-                {
-                    id: 1,
-                    link: "#",
-                    name: "1 + 1 = ?",
-                    answ1: "2",
-                    answ2: "3",
-                    answ3: "4",
-                    answ4: "5",
-                    isTrue: "1"
-                },
-                {
-                    id: 2,
-                    link: "#",
-                    name: "2 + 2 = ?",
-                    answ1: "2",
-                    answ2: "3",
-                    answ3: "4",
-                    answ4: "5",
-                    isTrue: "3"
-                }
-            ],
-            listTestQuestion: []
+            listSubject: [],
+            listQuestion: [],
+            pageSize: 1000,
+            pageIndex: 0,
         }
     },
     methods: {
         addRow(id) {
             console.log("add new row")
-        }
+        },
+        fetchData() {
+            axios({
+                method: 'get',
+                url: `http://127.0.0.1:8080/admin/question?page_size=${this.pageSize}&page_index=${this.pageIndex}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem("token")
+                },
+            }).then(response => {
+                var list = response.data;
+                var subject = this.$route.query.subject;
+                var key = "";
+                switch (subject) {
+                    case "VAN":
+                        key = "Môn văn"
+                        break;
+                    case "TOAN":
+                        key = "Môn Toán"
+                        break;
+                    case "TIENG_ANH":
+                        key = "Môn tiếng anh"
+                        break;
+                    case "TIN_HOC":
+                        key = "Môn văn"
+                        break;
+                    default:
+                        break;
+                }
+                if (key !== "") {
+                    list.forEach(element => {
+                        if (key.toUpperCase() === element.subject_name.toUpperCase()) {
+                            this.listQuestion.push(element);
+                        }
+                    });
+                } else {
+                    this.listQuestion = list;
+                }
+                console.log(this.listQuestion);
+            });
+        },
+        fetchSubject() {
+            axios({
+                method: 'get',
+                url: `http://127.0.0.1:8080/admin/subject`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem("token")
+                },
+            }).then(response => {
+                this.listSubject = response.data;
+            });
+        },
     }
 }
 </script>
