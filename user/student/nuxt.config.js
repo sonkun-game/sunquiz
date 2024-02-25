@@ -12,12 +12,29 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css',
+      },
+    ],
+    script: [
+      {
+        src: 'https://code.jquery.com/jquery-3.7.0.min.js',
+      },
+      {
+        src: 'https://kit.fontawesome.com/4ec2fea601.js',
+        crossorigin: 'anonymous',
+      },
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.js',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'static/css/main.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
