@@ -7,6 +7,33 @@
         <div class="p-4 flex justify-between">
             <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-book-open" />
         </div>
+        <p class="text-lg font-bold p-4">Id môn học : {{ subjectId }}</p>
+        <!-- Nhập code -->
+        <div class="p-2">
+            <label for="code">Code: </label>
+            <input id="code" name="code" class="p-2 bg-transparent border-bottom-teddy-brow" v-model="code" />
+        </div>
+        <div class="p-2">
+            <label for="time_start">Bắt đầu: </label>
+            <input type="date" id="time_start" name="time_start" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
+        </div>
+        <div class="p-2">
+            <label for="time_end">Kết thúc: </label>
+            <input type="date" id="time_end" name="time_end" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
+        </div>
+        <div class="p-2">
+            <label for="duration">Thời gian: </label>
+            <input type="number" min="0" id="duration" name="duration" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
+        </div>
+        <div class="p-2">
+            <label for="duration">số câu hỏi: </label>
+            <input type="number" value="2" readonly id="numOfQuest" name="numOfQuest" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
+        </div>
+        <div class="p-2">
+            <label for="description">Mô tả: </label><br>
+            <textarea id="description" name="description" class="p-2 bg-transparent rounded-lg"></textarea>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -19,14 +46,14 @@
                 <tr>
 
                 </tr>
-                <tr>
-                    <td class="p-4">1</td>
+                <tr v-for="item in 2" :key="item">
+                    <td class="p-4">{{ item }}</td>
                     <td class="p-4">
                         <Dropdown @change_value="addRow" type="thin" label="Chọn câu hỏi" :list="listQuestion" :dropType="2"
                             iconClass="fa-solid fa-arrow-right" />
                     </td>
                     <td class="p-4">
-                        <input type="number" min="0" max="10" id="asw3"
+                        <input type="number" value="5" id="asw3" readonly
                             class="p-2 bg-transparent border-bottom-teddy-brow" />
                     </td>
                 </tr>
@@ -63,6 +90,8 @@ export default {
         return {
             listSubject: [],
             listQuestion: [],
+            subjectId: "1",
+            code: "",
             pageSize: 1000,
             pageIndex: 0,
         }
@@ -74,7 +103,7 @@ export default {
         fetchData() {
             axios({
                 method: 'get',
-                url: `http://127.0.0.1:8080/admin/question?page_size=${this.pageSize}&page_index=${this.pageIndex}`,
+                url: `http://127.0.0.1:8000/admin/question?page_size=${this.pageSize}&page_index=${this.pageIndex}`,
                 headers: {
                     'Content-Type': 'application/json',
                     'token': localStorage.getItem("token")
@@ -114,13 +143,20 @@ export default {
         fetchSubject() {
             axios({
                 method: 'get',
-                url: `http://127.0.0.1:8080/admin/subject`,
+                url: `http://127.0.0.1:8000/admin/subject`,
                 headers: {
                     'Content-Type': 'application/json',
                     'token': localStorage.getItem("token")
                 },
             }).then(response => {
                 this.listSubject = response.data;
+                var subject = this.$route.query.subject;
+                this.listSubject.forEach(item => {
+                    console.log(item.code);
+                    if (item.code === subject) {
+                        this.subjectId = item.id;
+                    }
+                });
             });
         },
     }
@@ -140,6 +176,6 @@ thead {
 }
 
 .container {
-    height: 90vh;
+    height: 150vh;
 }
 </style>

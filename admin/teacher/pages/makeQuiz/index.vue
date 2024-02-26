@@ -129,7 +129,13 @@ export default {
       isCreated: false,
       isDeleted: false,
       listSubject: [],
-      listQuestion: []
+      listQuestion: [],
+      quiz: {
+        subjectId: 0,
+        content: "",
+        image_path: "",
+        
+      }
     }
   },
   mounted() {
@@ -154,7 +160,7 @@ export default {
     fetchData() {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:8080/admin/question?page_size=${this.pageSize}&page_index=${this.pageIndex}`,
+        url: `http://127.0.0.1:8000/admin/question?page_size=${this.pageSize}&page_index=${this.pageIndex}`,
         headers: {
           'Content-Type': 'application/json',
           'token': localStorage.getItem("token")
@@ -193,7 +199,7 @@ export default {
     fetchSubject() {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:8080/admin/subject`,
+        url: `http://127.0.0.1:8000/admin/subject`,
         headers: {
           'Content-Type': 'application/json',
           'token': localStorage.getItem("token")
@@ -227,7 +233,7 @@ export default {
           try {
             axios({
               method: 'post',
-              url: 'http://127.0.0.1:8080/import/',
+              url: 'http://127.0.0.1:8000/import/',
               responseType: 'json',
               headers: {
                 'Content-Type': 'multipart/form-data',

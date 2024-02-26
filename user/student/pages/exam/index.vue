@@ -144,7 +144,7 @@ export default {
         fetchData() {
             axios({
                 method: 'get',
-                url: `http://127.0.0.1:8080/student/exam`,
+                url: `http://127.0.0.1:8000/student/exam`,
                 headers: {
                     'Content-Type': 'application/json',
                     'token': localStorage.getItem("token")

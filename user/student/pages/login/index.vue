@@ -61,7 +61,7 @@ export default {
         loginForm() {
             axios({
                 method: 'post',
-                url: 'http://127.0.0.1:8080/student/login',
+                url: 'http://127.0.0.1:8000/student/login',
                 responseType: 'json',
                 data: {
                   user_name: this.username,
