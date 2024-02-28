@@ -40,6 +40,30 @@
                 </li>
             </ul>
         </div>
+        <div v-if="dropType==3" :id="'dropdown' + dropKey"
+            style="width: 300px;"
+            class="z-10 hidden bg-yellow-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <li v-for="(item, index) in list" :key="'drop2' + dropKey + index">
+                    <a @click="setLabel(item.id)"
+                       class="block px-4 py-2 hover:bg-yellow-100">
+                       {{ item.code }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div v-if="dropType==4" :id="'dropdown' + dropKey"
+            style="width: 300px;"
+            class="z-10 hidden bg-yellow-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <li v-for="(item, index) in list" :key="'drop2' + dropKey + index">
+                    <a @click="setLabel(item.id)"
+                       class="block px-4 py-2 hover:bg-yellow-100">
+                       {{ item.content }}
+                    </a>
+                </li>
+            </ul>
+        </div>
 
     </div>
 </template>

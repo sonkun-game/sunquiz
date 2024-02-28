@@ -10,11 +10,12 @@
 
     <div class="p-4 border-teddy-brow">
       <div class="text-xl p-2">
-        <b>1 + 1 = ?</b>
+        <b>{{ exam.content }}</b>
       </div>
       <div>
         <div class="p-2">
-          <img class="question-image" src="../../../static/img/math.jpg" />
+          <img v-if="getImage(exam.image_path) !== ''" class="question-image" :src="getImage(exam.image_path)"
+                alt="Question Image" />
         </div>
         <div class="p-2">
           <ul class="cursor-pointer">
@@ -55,6 +56,8 @@ p, div {
 </style>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'MakeQuizDetailPage',
   layout: 'main',
@@ -62,7 +65,38 @@ export default {
     id() {
       return this.$route.params.id;
     }
+  },
+  data(){
+return {
+  exam: {}
+}
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    getImage(image) {
+      if (image == null || image == "") return "";
+      try {
+        var imgPath = require(`~/public/${image}`);
+        return imgPath;
+      } catch (e) { }
+      return "";
+    },
+    fetchData() {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/admin/question/${this.id}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem("token")
+        },
+      }).then(response => {
+        this.exam = response.data;
+      });
+    }
   }
+
 }
 </script>
 

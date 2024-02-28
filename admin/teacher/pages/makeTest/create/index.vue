@@ -4,35 +4,12 @@
             <b>Tạo đề thi</b>
         </p>
         <!-- Chọn môn học -->
-        <div class="p-4 flex justify-between">
+        <div class="p-4 flex gap-2">
             <Dropdown label="Môn học" :list="listSubject" iconClass="fa-solid fa-book-open" />
+            <Dropdown @change_value="setExam" label="Đề thi" :list="listExam" :dropType="3"
+                iconClass="fa-solid fa-list-check" />
         </div>
-        <p class="text-lg font-bold p-4">Id môn học : {{ subjectId }}</p>
-        <!-- Nhập code -->
-        <div class="p-2">
-            <label for="code">Code: </label>
-            <input id="code" name="code" class="p-2 bg-transparent border-bottom-teddy-brow" v-model="code" />
-        </div>
-        <div class="p-2">
-            <label for="time_start">Bắt đầu: </label>
-            <input type="date" id="time_start" name="time_start" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
-        </div>
-        <div class="p-2">
-            <label for="time_end">Kết thúc: </label>
-            <input type="date" id="time_end" name="time_end" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
-        </div>
-        <div class="p-2">
-            <label for="duration">Thời gian: </label>
-            <input type="number" min="0" id="duration" name="duration" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
-        </div>
-        <div class="p-2">
-            <label for="duration">số câu hỏi: </label>
-            <input type="number" value="2" readonly id="numOfQuest" name="numOfQuest" class="p-2 bg-transparent border-teddy-brow rounded-lg" />
-        </div>
-        <div class="p-2">
-            <label for="description">Mô tả: </label><br>
-            <textarea id="description" name="description" class="p-2 bg-transparent rounded-lg"></textarea>
-        </div>
+        <p class="text-lg font-bold p-4">Tên môn học : {{ subjectName }}</p>
 
         <table>
             <thead>
@@ -40,30 +17,33 @@
                     <th class="p-4 text-left">STT</th>
                     <th class="p-4 text-left">Câu hỏi</th>
                     <th class="p-4 text-left">Điểm số</th>
+                    <th class="p-4 text-left">Mix Choice</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
 
                 </tr>
-                <tr v-for="item in 2" :key="item">
+                <tr v-for="item in 1" :key="item">
                     <td class="p-4">{{ item }}</td>
                     <td class="p-4">
-                        <Dropdown @change_value="addRow" type="thin" label="Chọn câu hỏi" :list="listQuestion" :dropType="2"
-                            iconClass="fa-solid fa-arrow-right" />
+                        <Dropdown @change_value="setQuestion" type="thin" label="Chọn câu hỏi" :list="listQuestion"
+                            :dropType="4" iconClass="fa-solid fa-arrow-right" />
                     </td>
                     <td class="p-4">
-                        <input type="number" value="5" id="asw3" readonly
-                            class="p-2 bg-transparent border-bottom-teddy-brow" />
+                        <input type="number" value="1" id="asw" class="p-2 bg-transparent border-bottom-teddy-brow" />
+                    </td>
+                    <td class="p-4">
+                        <input type="checkbox" id="asw" class="p-2 bg-transparent border-bottom-teddy-brow" />
                     </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td class="p-4" colspan="3">
-                        <button class="bg-teddy-brow rounded-lg bold p-2 w-full">
+                        <button @click="submitQuest()" type="button" class="bg-teddy-brow rounded-lg bold p-2 w-full">
                             <i class="fa-solid fa-hammer text-white"></i>
-                            <span class="text-white">Tạo đề thi</span>
+                            <span class="text-white">Insert câu hỏi vào đề thi</span>
                         </button>
                     </td>
                 </tr>
@@ -85,20 +65,47 @@ export default {
     mounted() {
         this.fetchSubject();
         this.fetchData();
+        this.fetchExam();
     },
     data() {
         return {
             listSubject: [],
             listQuestion: [],
-            subjectId: "1",
+            listExam: [],
+            listQuestion: [],
+            examId: "",
+            questionId: "",
+            subjectName: "1",
             code: "",
             pageSize: 1000,
             pageIndex: 0,
         }
     },
     methods: {
-        addRow(id) {
-            console.log("add new row")
+        setQuestion(id) {
+            this.questionId = id;
+        },
+        setExam(id) {
+            this.examId = id;
+        },
+        submitQuest() {
+            if (this.examId && this.questionId) {
+                axios({
+                    method: 'post',
+                    url: `http://127.0.0.1:8000/admin/exam/${this.examId}?question_id=${this.questionId}&mark=1&mix_choice=1`,
+                    responseType: 'json',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem("token")
+                    },
+                }).then(response => {
+                    var respData = response.data;
+                    alert("Đã thêm câu hỏi thành công !");
+                    location.reload();
+                });
+            } else {
+                alert("Hãy nhập thông tin đầy đủ")
+            }
         },
         fetchData() {
             axios({
@@ -152,13 +159,25 @@ export default {
                 this.listSubject = response.data;
                 var subject = this.$route.query.subject;
                 this.listSubject.forEach(item => {
-                    console.log(item.code);
                     if (item.code === subject) {
-                        this.subjectId = item.id;
+                        this.subjectName = item.name;
                     }
                 });
             });
         },
+        fetchExam() {
+            axios({
+                method: 'get',
+                url: `http://127.0.0.1:8000/admin/exam`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem("token")
+                },
+            }).then(response => {
+                console.log("ddd", response.data);
+                this.listExam = response.data;
+            });
+        }
     }
 }
 </script>
